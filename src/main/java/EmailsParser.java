@@ -1,25 +1,23 @@
 import com.opencsv.CSVReader;
-import com.opencsv.exceptions.CsvException;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EmailsParser {
-    private String pathToData;
+    private File dataFile;
+    private FileReader reader;
 
-    EmailsParser() {
-        this.pathToData = "../../data/listOfInvitees.csv";
+    EmailsParser() throws FileNotFoundException {
+        this.dataFile = new File("./src/main/resources/listOfInvitees.csv");
+        this.reader = new FileReader(this.dataFile);
     }
 
-    public List<String[]> getEmails() throws IOException, CsvException {
-        CSVReader reader = null;
-        try {
-            reader = new CSVReader(new FileReader(this.pathToData));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return reader.readAll();
+    public List<String[]> getEmails() throws Exception {
+        CSVReader csvReader = new CSVReader(this.reader);
+        List<String[]> list = csvReader.readAll();
+        this.reader.close();
+        csvReader.close();
+        return list;
     }
 }
