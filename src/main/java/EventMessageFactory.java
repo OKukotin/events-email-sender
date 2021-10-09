@@ -1,4 +1,6 @@
-import javax.mail.*;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
@@ -40,10 +42,8 @@ public class EventMessageFactory {
         File attach = null;
         try {
             attach = new File(classLoader.getResource("cat.png").getFile());
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             e.printStackTrace();
-        } finally {
-            attach = null;
         }
         try {
             MimeBodyPart textPart = new MimeBodyPart();
