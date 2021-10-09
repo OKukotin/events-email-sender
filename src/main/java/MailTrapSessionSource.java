@@ -3,12 +3,12 @@ import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import java.util.Properties;
 
-public class MailtrapSessionSource {
+public class MailTrapSessionSource {
 
     private final Properties properties;
     private final Authenticator loginData;
 
-    MailtrapSessionSource() {
+    MailTrapSessionSource() {
         this.properties = new Properties();
         this.properties.put("mail.smtp.auth", "true");
         this.properties.put("mail.smtp.starttls", "true");
