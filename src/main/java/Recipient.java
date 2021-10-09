@@ -1,12 +1,18 @@
-import javax.mail.Address;
-import javax.mail.internet.InternetAddress;
-
 public class Recipient {
-    public String fullName;
-    public String email;
+
+    private final String fullName;
+    private final String email;
 
     Recipient(String name, String email) {
         this.fullName = name;
         this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getFullName() {
+        return fullName;
     }
 }
