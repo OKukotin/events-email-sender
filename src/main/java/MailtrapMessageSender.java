@@ -4,15 +4,9 @@ import javax.mail.Transport;
 
 public class MailtrapMessageSender {
 
-    private Message message;
-
-    MailtrapMessageSender(Message message){
-        this.message = message;
-    }
-
-    public void sendMessage(){
+    public static void sendMessage(Message message){
         try {
-            Transport.send(this.message);
+            Transport.send(message);
         } catch (MessagingException e) {
             e.printStackTrace();
         }

@@ -10,36 +10,51 @@ public class EventMessageFactory {
 
     private final Message message;
 
-    EventMessageFactory(Session session, Recipient recipient) {
+    EventMessageFactory(Session session) {
         this.message = new MimeMessage(session);
-
-        MimeBodyPart textPart = new MimeBodyPart();
-        MimeBodyPart attachment = new MimeBodyPart();
         MimeMultipart multipart = new MimeMultipart();
-        String messageText = "Hello, " + recipient.getFullName() +
-                ", I invite you to visit my event, which will take place in 3 days!";
+
         try {
             this.message.setFrom(new InternetAddress("tobi.laufeyson@gmail.com"));
             this.message.setSubject("Invitation to event");
-            this.message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient.getEmail()));
-            textPart.setContent(messageText, "text/html");
-
-            ClassLoader classLoader = this.getClass().getClassLoader();
-            File attach = new File(classLoader.getResource("cat.png").getFile());
-            try {
-                attachment.attachFile(attach);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            multipart.addBodyPart(textPart);
-            multipart.addBodyPart(attachment);
-            this.message.setContent(multipart);
         } catch (MessagingException e) {
             e.printStackTrace();
         }
     }
 
-    public Message getMessage() {
-        return message;
+    public Message getIndividualMessage(Recipient recipient) {
+        Message individualMessage = new MimeMessage(this.message.getSession());
+        try {
+            individualMessage.setFrom(this.message.getFrom()[0]);
+            individualMessage.setSubject(this.message.getSubject());
+            individualMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient.getEmail()));
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+
+        MimeMultipart multipart = new MimeMultipart();
+        String messageText = "Hello, " + recipient.getFullName() +
+                ", I invite you to visit my event, which will take place in 3 days!";
+        MimeBodyPart attachment = new MimeBodyPart();
+        ClassLoader classLoader = this.getClass().getClassLoader();
+        File attach = null;
+        try {
+            attach = new File(classLoader.getResource("cat.png").getFile());
+        } catch (NullPointerException e){
+            e.printStackTrace();
+        } finally {
+            attach = null;
+        }
+        try {
+            MimeBodyPart textPart = new MimeBodyPart();
+            textPart.setContent(messageText, "text/html");
+            attachment.attachFile(attach);
+            multipart.addBodyPart(textPart);
+            multipart.addBodyPart(attachment);
+            individualMessage.setContent(multipart);
+        } catch (MessagingException | IOException e) {
+            e.printStackTrace();
+        }
+        return individualMessage;
     }
 }
