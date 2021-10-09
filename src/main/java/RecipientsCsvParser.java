@@ -15,7 +15,7 @@ public class RecipientsCsvParser {
     private static final String LIST_OF_RECIPIENTS_CSV = "Recipients.csv";
     private static final int NUMBER_OF_LINES_TO_SKIP = 1;
 
-    public List<Recipient> getRecipients() {
+    List<Recipient> getRecipients() {
         final List<Recipient> recipients = new ArrayList<>();
         final ClassLoader classLoader = getClass().getClassLoader();
 

@@ -10,7 +10,7 @@ public class MailTrapMessageSender {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MailTrapMessageSender.class);
 
-    public void send(Message message) {
+    void send(Message message) {
         try {
             Transport.send(message);
             LOGGER.info("Sent message for the next recipient: {}", (Object) getAllRecipients(message));

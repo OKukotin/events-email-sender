@@ -20,7 +20,7 @@ public class EventMessageFactory {
         this.attachment = loadAttachment();
     }
 
-    public Message create(Session session, Recipient recipient) {
+    Message create(Session session, Recipient recipient) {
         try {
             final Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(SENDER_EMAIL));
