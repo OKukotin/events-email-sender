@@ -7,54 +7,58 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 public class EventMessageFactory {
 
-    private final Message message;
+    private static final String SENDER_EMAIL = "tobi.laufeyson@gmail.com";
+    private static final String SUBJECT_OF_EMAIL = "Invitation to event";
+    private static final String ATTACHMENT_FILE_NAME = "cat.png";
+    private final File attachment;
 
-    EventMessageFactory(Session session) {
-        this.message = new MimeMessage(session);
-        MimeMultipart multipart = new MimeMultipart();
+    EventMessageFactory() {
+        this.attachment = loadAttachment();
+    }
 
+    Message create(Session session, Recipient recipient) {
         try {
-            this.message.setFrom(new InternetAddress("tobi.laufeyson@gmail.com"));
-            this.message.setSubject("Invitation to event");
-        } catch (MessagingException e) {
-            e.printStackTrace();
+            final Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(SENDER_EMAIL));
+            message.setSubject(SUBJECT_OF_EMAIL);
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient.getEmail()));
+
+            final MimeMultipart multipart = new MimeMultipart();
+            multipart.addBodyPart(setMessageText(recipient.getFullName()));
+            multipart.addBodyPart(attachFile());
+            message.setContent(multipart);
+            return message;
+        } catch (MessagingException | IOException e) {
+            // TODO: add logger, for example see MailTrapMessageSender class
+            // TODO: rethrow new custom exception and remove 'return null'
+            return null;
         }
     }
 
-    public Message getIndividualMessage(Recipient recipient) {
-        Message individualMessage = new MimeMessage(this.message.getSession());
-        try {
-            individualMessage.setFrom(this.message.getFrom()[0]);
-            individualMessage.setSubject(this.message.getSubject());
-            individualMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient.getEmail()));
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
+    private File loadAttachment() {
+        final URL resource = getClass().getClassLoader().getResource(ATTACHMENT_FILE_NAME);
+        return new File(resource.getFile()); // TODO: fix case when the file for the attachment not found
+    }
 
-        MimeMultipart multipart = new MimeMultipart();
-        String messageText = "Hello, " + recipient.getFullName() +
-                ", I invite you to visit my event, which will take place in 3 days!";
-        MimeBodyPart attachment = new MimeBodyPart();
-        ClassLoader classLoader = this.getClass().getClassLoader();
-        File attach = null;
-        try {
-            attach = new File(classLoader.getResource("cat.png").getFile());
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-        try {
-            MimeBodyPart textPart = new MimeBodyPart();
-            textPart.setContent(messageText, "text/html");
-            attachment.attachFile(attach);
-            multipart.addBodyPart(textPart);
-            multipart.addBodyPart(attachment);
-            individualMessage.setContent(multipart);
-        } catch (MessagingException | IOException e) {
-            e.printStackTrace();
-        }
-        return individualMessage;
+    private MimeBodyPart setMessageText(String recipientFullName) throws MessagingException {
+        final MimeBodyPart textBodyPart = new MimeBodyPart();
+        textBodyPart.setContent(buildMessageText(recipientFullName), "text/html");
+        return textBodyPart;
+    }
+
+    private String buildMessageText(String recipientFullName) {
+        return "Hello, "
+            + recipientFullName
+            + ", I invite you to visit my event, which will take place in 3 days!";
+    }
+
+    private MimeBodyPart attachFile() throws IOException, MessagingException {
+        final MimeBodyPart attachmentBodyPart = new MimeBodyPart();
+        attachmentBodyPart.attachFile(attachment);
+        return attachmentBodyPart;
     }
 }
