@@ -14,7 +14,7 @@ import java.net.URL;
 
 public class EventMessageFactory {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(RecipientsCsvParser.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(EventMessageFactory.class);
     private static final String SENDER_EMAIL = "tobi.laufeyson@gmail.com";
     private static final String SUBJECT_OF_EMAIL = "Invitation to event";
     private static final String ATTACHMENT_FILE_NAME = "cat.png";
@@ -37,16 +37,16 @@ public class EventMessageFactory {
             message.setContent(multipart);
             return message;
         } catch (MessagingException | IOException e) {
-            LOGGER.error("Cannot create message because Messaging methods error", e);
-            throw new CreateMessageFailException("Creating message is failed", e);
+            LOGGER.error("Cannot create a message", e);
+            throw new CreateMessageFailException("Message creating was failed", e);
         }
     }
 
     private File loadAttachment() {
         final URL resource = getClass().getClassLoader().getResource(ATTACHMENT_FILE_NAME);
         if (resource == null) {
-            LOGGER.error("File {} not founded", ATTACHMENT_FILE_NAME);
-            throw new FileNoExistException("File not found or empty!", new RuntimeException());
+            LOGGER.error("File {} not found", ATTACHMENT_FILE_NAME);
+            throw new FileNotExistsException("File not found or empty!");
         }
         return new File(resource.getFile());
     }
@@ -69,12 +69,15 @@ public class EventMessageFactory {
         return attachmentBodyPart;
     }
 
-    private static final class FileNoExistException extends RuntimeException {
-        public FileNoExistException(String message, Exception exception) {
-            super(message, exception);
+    private static final class FileNotExistsException extends RuntimeException {
+
+        public FileNotExistsException(String message) {
+            super(message);
         }
     }
+
     private static final class CreateMessageFailException extends RuntimeException {
+
         public CreateMessageFailException(String message, Exception exception) {
             super(message, exception);
         }

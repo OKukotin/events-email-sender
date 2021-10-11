@@ -11,7 +11,7 @@ import java.util.Objects;
 
 public class RecipientsCsvParser {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(RecipientsCsvParser.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RecipientsCsvParser.class);
     private static final String LIST_OF_RECIPIENTS_CSV = "Recipients.csv";
     private static final int NUMBER_OF_LINES_TO_SKIP = 1;
 
@@ -19,9 +19,8 @@ public class RecipientsCsvParser {
         final List<Recipient> recipients = new ArrayList<>();
         final ClassLoader classLoader = getClass().getClassLoader();
 
-        try {
-            final String fileName = Objects.requireNonNull(classLoader.getResource(LIST_OF_RECIPIENTS_CSV)).getFile();
-            final CSVReader csvReader = new CSVReader(new FileReader(fileName));
+        final String fileName = Objects.requireNonNull(classLoader.getResource(LIST_OF_RECIPIENTS_CSV)).getFile();
+        try (final CSVReader csvReader = new CSVReader(new FileReader(fileName))) {
             csvReader.skip(NUMBER_OF_LINES_TO_SKIP);
             for (String[] line : csvReader.readAll()) {
                 recipients.add(new Recipient(line[0], line[1]));
