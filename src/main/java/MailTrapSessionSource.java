@@ -10,17 +10,15 @@ public class MailTrapSessionSource {
 
     MailTrapSessionSource() {
         this.properties = new Properties();
-        this.properties.put("mail.smtp.auth", "true");
-        this.properties.put("mail.smtp.starttls", "true");
-        this.properties.put("mail.smtp.host", "smtp.mailtrap.io");
-        this.properties.put("mail.smtp.port", "2525");
-        this.properties.put("mail.smtp.ssl.trust", "smtp.mailtrap.io");
-        final String username = System.getenv().getOrDefault("LOGIN", "John Doe");
-        final String password = System.getenv().getOrDefault("PASSWORD", "Open Sesame");
+        this.properties.put("mail.smtp.auth", SmtpServerProperties.MAILTRAP.getAuthorization());
+        this.properties.put("mail.smtp.starttls", SmtpServerProperties.MAILTRAP.getStartTls());
+        this.properties.put("mail.smtp.host", SmtpServerProperties.MAILTRAP.getHost());
+        this.properties.put("mail.smtp.port", SmtpServerProperties.MAILTRAP.getPort());
+        this.properties.put("mail.smtp.ssl.trust", SmtpServerProperties.MAILTRAP.getSslTrust());
         this.loginData = new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(username, password);
+                return new PasswordAuthentication(SmtpServerProperties.MAILTRAP.getLogin(), SmtpServerProperties.MAILTRAP.getPassword());
             }
         };
     }
