@@ -9,8 +9,14 @@ public enum SmtpServerProperties {
         System.getenv().getOrDefault("PASSWORD", "Open Sesame")
     ),
     // TODO: add properties for SMTP Gmail server as an enum Object
-    GMAIL(false, false, null, null, null, null, null)
-    ;
+    GMAIL(true,
+            true,
+            "smtp.gmail.com",
+            587,
+            "smtp.gmail.com",
+            System.getenv().getOrDefault("GMAIL", "John Doe"),
+            System.getenv().getOrDefault("GMAIL_PASS", "John Doe")
+    );
 
     private final Boolean authorization;
     private final Boolean startTls;
