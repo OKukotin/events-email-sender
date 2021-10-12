@@ -6,9 +6,9 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Transport;
 
-public class MailTrapMessageSender {
+public class MessageSender {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MailTrapMessageSender.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MessageSender.class);
 
     void send(Message message) {
         try {
