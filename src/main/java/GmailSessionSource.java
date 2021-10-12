@@ -15,6 +15,8 @@ public class GmailSessionSource {
         this.properties.put("mail.smtp.host", SmtpServerProperties.GMAIL.getHost());
         this.properties.put("mail.smtp.port", SmtpServerProperties.GMAIL.getPort());
         this.properties.put("mail.smtp.ssl.trust", SmtpServerProperties.GMAIL.getSslTrust());
+        this.properties.put("mail.smtp.starttls.enable", SmtpServerProperties.GMAIL.getStartTls());
+        this.properties.put("mail.smtp.EnableSSL.enable", SmtpServerProperties.GMAIL.getEnableSsl());
         this.authenticator = new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {

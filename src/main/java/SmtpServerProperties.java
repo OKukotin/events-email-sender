@@ -4,18 +4,24 @@ public enum SmtpServerProperties {
         true,
         true,
         "smtp.mailtrap.io",
-        2525, "smtp.mailtrap.io",
+        2525,
+        "smtp.mailtrap.io",
         System.getenv().getOrDefault("LOGIN", "John Doe"),
-        System.getenv().getOrDefault("PASSWORD", "Open Sesame")
+        System.getenv().getOrDefault("PASSWORD", "Open Sesame"),
+        true,
+        true
     ),
 
-    GMAIL(true,
-            true,
-            "smtp.gmail.com",
-            587,
-            "smtp.gmail.com",
-            System.getenv().getOrDefault("GMAIL", "John Doe"),
-            System.getenv().getOrDefault("GMAIL_PASS", "Open Sesame")
+    GMAIL(
+        true,
+        true,
+        "smtp.gmail.com",
+        587,
+        "smtp.gmail.com",
+        System.getenv().getOrDefault("GMAIL", "John Doe"),
+        System.getenv().getOrDefault("GMAIL_PASS", "Open Sesame"),
+        true,
+        true
     );
 
     private final Boolean authorization;
@@ -25,8 +31,20 @@ public enum SmtpServerProperties {
     private final String sslTrust;
     private final String login;
     private final String password;
+    private final Boolean enableSsl;
+    private final Boolean enableStartTls;
 
-    SmtpServerProperties(Boolean authorization, Boolean startTls, String host, Integer port, String sslTrust, String login, String password) {
+    SmtpServerProperties(
+        Boolean authorization,
+        Boolean startTls,
+        String host,
+        Integer port,
+        String sslTrust,
+        String login,
+        String password,
+        Boolean enableSsl,
+        Boolean enableStartTls
+    ) {
         this.authorization = authorization;
         this.startTls = startTls;
         this.host = host;
@@ -34,6 +52,8 @@ public enum SmtpServerProperties {
         this.sslTrust = sslTrust;
         this.login = login;
         this.password = password;
+        this.enableSsl = enableSsl;
+        this.enableStartTls = enableStartTls;
     }
 
     public Boolean getAuthorization() {
@@ -62,5 +82,13 @@ public enum SmtpServerProperties {
 
     public String getPassword() {
         return password;
+    }
+
+    public Boolean getEnableSsl() {
+        return enableSsl;
+    }
+
+    public Boolean getEnableStartTls() {
+        return enableStartTls;
     }
 }
