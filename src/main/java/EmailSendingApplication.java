@@ -8,9 +8,9 @@ public class EmailSendingApplication {
         final RecipientsCsvParser parser = new RecipientsCsvParser();
         final EventMessageFactory messageFactory = new EventMessageFactory();
         final List<Recipient> recipients = parser.getRecipients();
-        final Session gmailSession = new GmailSessionSource().getSession();
+        final Session session = new SmtpSessionSource(SmtpServerProperties.MAILTRAP).getSession();
         for (Recipient recipient : recipients) {
-            messageSender.send(messageFactory.create(gmailSession, recipient));
+            messageSender.send(messageFactory.create(session, recipient));
         }
     }
 }

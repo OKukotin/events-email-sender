@@ -8,8 +8,8 @@ public enum SmtpServerProperties {
         "smtp.mailtrap.io",
         System.getenv().getOrDefault("LOGIN", "John Doe"),
         System.getenv().getOrDefault("PASSWORD", "Open Sesame"),
-        true,
-        true
+        false,
+        false
     ),
 
     GMAIL(
