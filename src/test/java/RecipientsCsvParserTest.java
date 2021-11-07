@@ -11,6 +11,7 @@ class RecipientsCsvParserTest {
 
         final List<Recipient> recipients = csvParser.getRecipients();
 
+        // TODO: add test file Recipients.csv into test/resources. Check specific recipients instead checking on empty. And rename method accordingly to changes
         Assertions.assertFalse(recipients.isEmpty());
     }
 }
