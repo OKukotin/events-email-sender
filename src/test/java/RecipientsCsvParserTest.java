@@ -6,7 +6,7 @@ import java.util.List;
 class RecipientsCsvParserTest {
 
     @Test
-    void whenRecipientsIsPresentInTheFile_PresentInTheList() {
+    void whenRecipientsIsPresentInTheFile_presentInTheList() {
         final RecipientsCsvParser csvParser = new RecipientsCsvParser();
 
         final List<Recipient> recipients = csvParser.getRecipients();
@@ -16,12 +16,12 @@ class RecipientsCsvParserTest {
     }
 
     @Test
-    void whenRecipientsIsNoPresentInTheFile_AbsentInTheList() {
+    void whenRecipientsIsNoPresentInTheFile_absentInTheList() {
         // TODO: implement
     }
 
     @Test
-    void whenTheTitleIsPresentInTheFile_SkipTitle() {
+    void whenTheTitleIsPresentInTheFile_skipTitle() {
         // TODO: implement
     }
 }
