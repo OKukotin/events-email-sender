@@ -10,8 +10,8 @@ class RecipientsCsvParserTest {
     @Test
     void whenRecipientsIsPresentInTheFile_presentInTheList() {
         final List<Recipient> expectedRecipients = new ArrayList<>();
-        expectedRecipients.add(new Recipient("Saske Pawlyuk", " saske.pawlyuk2012@gmail.com"));
-        expectedRecipients.add(new Recipient("Loki Laufeyson", " loki.laufeyson@gmail.com"));
+        expectedRecipients.add(new Recipient("Saske Pawlyuk", "saske.pawlyuk2012@gmail.com"));
+        expectedRecipients.add(new Recipient("Loki Laufeyson", "loki.laufeyson@gmail.com"));
 
         final RecipientsCsvParser csvParser = new RecipientsCsvParser();
         final List<Recipient> actualRecipients = csvParser.getRecipients();
@@ -33,6 +33,11 @@ class RecipientsCsvParserTest {
 
     @Test
     void whenTheTitleIsPresentInTheFile_skipTitle() {
-        // TODO: implement
+        final Recipient title = new Recipient("Full name", "Email");
+
+        final RecipientsCsvParser csvParser = new RecipientsCsvParser();
+        final List<Recipient> actual = csvParser.getRecipients();
+
+        Assertions.assertFalse(actual.contains(title));
     }
 }
