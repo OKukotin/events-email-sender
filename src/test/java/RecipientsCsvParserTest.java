@@ -1,18 +1,22 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 class RecipientsCsvParserTest {
 
     @Test
     void whenRecipientsIsPresentInTheFile_presentInTheList() {
+        List<Recipient> expectedRecipients = new ArrayList<>();
+        expectedRecipients.add(new Recipient("Saske Pawlyuk", " saske.pawlyuk2012@gmail.com"));
+        expectedRecipients.add(new Recipient("Loki Laufeyson", " loki.laufeyson@gmail.com"));
+
         final RecipientsCsvParser csvParser = new RecipientsCsvParser();
+        final List<Recipient> actualRecipients = csvParser.getRecipients();
 
-        final List<Recipient> recipients = csvParser.getRecipients();
-
-        // TODO: add test file Recipients.csv into test/resources. Check specific recipients instead checking on empty
-        Assertions.assertFalse(recipients.isEmpty());
+        Assertions.assertEquals(expectedRecipients, actualRecipients);
     }
 
     @Test
