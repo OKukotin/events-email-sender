@@ -9,7 +9,7 @@ class RecipientsCsvParserTest {
 
     @Test
     void whenRecipientsIsPresentInTheFile_presentInTheList() {
-        List<Recipient> expectedRecipients = new ArrayList<>();
+        final List<Recipient> expectedRecipients = new ArrayList<>();
         expectedRecipients.add(new Recipient("Saske Pawlyuk", " saske.pawlyuk2012@gmail.com"));
         expectedRecipients.add(new Recipient("Loki Laufeyson", " loki.laufeyson@gmail.com"));
 
@@ -21,7 +21,14 @@ class RecipientsCsvParserTest {
 
     @Test
     void whenRecipientsIsNoPresentInTheFile_absentInTheList() {
-        // TODO: implement
+        final List<Recipient> expected = new ArrayList<>();
+        expected.add(new Recipient("Foo Bar", "foo.bar@gmail.com"));
+        expected.add(new Recipient("Simple User", "simple.user@gmail.com"));
+
+        final RecipientsCsvParser csvParser = new RecipientsCsvParser();
+        final List<Recipient> actual = csvParser.getRecipients();
+
+        Assertions.assertFalse(actual.containsAll(expected));
     }
 
     @Test
